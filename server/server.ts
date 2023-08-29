@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import express from 'express'
 import type { Request, Response, NextFunction } from 'express'
 import type { ServerError } from '../types/types'
@@ -29,7 +30,7 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
   return res.status(errorObj.status).json(errorObj.message)
 })
-  app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`)
-  })
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`)
+})
 export default app
