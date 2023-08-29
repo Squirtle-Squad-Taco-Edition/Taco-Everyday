@@ -1,9 +1,20 @@
+
+
+.signInPage {
+    width: 99vw;
+    height: 99vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 .signInBox {
     min-width: 360px;
     height: 700px;
     border: 2px solid cyan;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     flex-direction: column;
 }
@@ -14,7 +25,7 @@
     width: 80%;
     height: auto;
     margin: 0;
-    border: 2px solid cyan;
+    // border: 2px solid cyan;
 }
 .logo {
     width: 200px;
@@ -26,35 +37,39 @@
     border: none;
     background-color: skyblue;
     width: 80%;
-    height: 20px;
+    height: 30px;
 }
 .signInSubmit {
     margin: 5px;
+    // padding: 0;
     border-radius: 5px;
     border: none;
     background-color: rgb(231, 92, 220);
     width: 80%;
-    height: 20px;
+    height: 30px;
 }
-.signInSubmit:hover {
+.signInSubmit:hover,
+.signUp:hover {
     cursor: pointer;
 }
 .passwordReset {
     display: flex;
     justify-content: end;
-    border: 2px solid magenta;
+    // border: 2px solid magenta;
     width: 80%;
     font-size: smaller;
 }
 .signInBottom {
     display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
     width: 80%;
-    // height: 40%;
-    // margin: 100px 0 0 0;
-    border: 2px solid cyan;
+   height: 30%;
+    // border: 2px solid cyan;
 }
-// .signInContainer {
-//     display: flex;
-//     flex-direction: column;
-//     border: 2px solid cyan;
-// }
+.signUp {
+    background: none;
+    border: none;
+    color: white;
+}

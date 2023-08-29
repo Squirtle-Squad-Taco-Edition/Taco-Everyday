@@ -1,5 +1,6 @@
 @import '_signin';
 @import '_variables';
+@import '_navbar';
 
 body {
   display: flex;
@@ -19,7 +20,9 @@ body {
   width: 99vw;
   height: 99vh;
   display: flex;
-  justify-content: center;
+  // padding: 0;
+  flex-direction: column;
+  // justify-content: center;
   align-items: center;
   overflow: hidden;
 }
