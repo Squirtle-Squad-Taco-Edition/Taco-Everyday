@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import express from 'express'
 import type { Router, Express, Request, Response, NextFunction } from 'express'
@@ -25,14 +24,14 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
   const defaultErr = {
     log: 'Error caught in global handler',
     status: 500,
-    message: { err: 'An error occurred' }
-  }
-  const errorObj = { ...defaultErr, ...err }
-  console.log(errorObj.log)
-  console.log(err)
-  return res.status(errorObj.status).json(errorObj.message)
-})
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = { ...defaultErr, ...err };
+  console.log(errorObj.log);
+  console.log(err);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`)
-})
-export default app
+  console.log(`App listening on port ${PORT}`);
+});
+export default app;
