@@ -7,13 +7,13 @@ import Group from './components/Group'
 import { GlobalContext } from './components/Context'
 
 function App (): ReactElement {
-  const [globalTimer, setGlobalTimer] = useState(0)
+  const [currentGroup, setCurrentGroup] = useState('')
   return (
     <div className="App">
       <GlobalContext.Provider
         value={{
-          globalTimer,
-          setGlobalTimer
+          currentGroup,
+          setCurrentGroup
         }}
       >
         <Routes>

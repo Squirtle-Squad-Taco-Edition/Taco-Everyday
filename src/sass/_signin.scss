@@ -32,27 +32,33 @@
     height: 200px;
 }
 .signInInput {
+    color: $font-color;
     margin: 5px;
     border-radius: 5px;
     border: none;
-    background-color: skyblue;
+    background-color: $button-background;
     width: 80%;
     height: 30px;
 }
 .signInSubmit {
+    color: $font-color;
     margin: 5px;
     // padding: 0;
     border-radius: 5px;
     border: none;
-    background-color: rgb(231, 92, 220);
+    background-color: $button-background;
     width: 80%;
     height: 30px;
 }
 .signInSubmit:hover,
 .signUp:hover {
     cursor: pointer;
+    transform: translate(1px, 1px);
+    color: rgb(226, 119, 205);
+    // background-color: lighten($button-background, 30%);
 }
 .passwordReset {
+    color: $font-color;
     display: flex;
     justify-content: end;
     // border: 2px solid magenta;
@@ -69,6 +75,7 @@
     // border: 2px solid cyan;
 }
 .signUp {
+    color: $font-color;
     background: none;
     border: none;
     color: white;

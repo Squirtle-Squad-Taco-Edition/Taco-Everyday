@@ -8,6 +8,7 @@ function Signin (): ReactElement {
   const navigate = useNavigate()
 
   // & authenticate user and assign info to state
+  // ? potentially groups here or maybe later idk
 
   return (
     <div className="signInPage">

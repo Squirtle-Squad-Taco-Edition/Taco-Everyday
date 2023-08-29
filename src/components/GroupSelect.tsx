@@ -1,30 +1,33 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { type ReactElement } from 'react'
+import React, { useContext, type ReactElement } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import lememe from '../assets/lememe.png'
+import { GlobalContext } from './Context'
+import Navbar from './Navbar'
 
 const tempGroups = ['Spectacolar', 'Will work for tacos']
 function GroupSelect (): ReactElement {
   const navigate = useNavigate()
+  const { setCurrentGroup } = useContext(GlobalContext)
+
   // & pull user info from global state
   return (
     <>
-      <div className="navbar">
-        <img className="logoSmall" src={lememe} alt="" />
-        <h1>Welcome to Tacos Everyday</h1>
-      </div>
+      <Navbar />
       <div className="groupBox">
+        <h3>
+          Select Group
+        </h3>
+        <hr style={{ width: '80%' }} />
         {tempGroups.map((group: string): ReactElement => (
           <div className="group" key={uuidv4()}>
             {group}
-            <div>
+            <div style={{ display: 'flex' }}>
               <button
-                className="groupButton"
+                className="signInSubmit"
                 type="button"
                 onClick={() => {
-                  'thingy'
-
+                  if (setCurrentGroup !== undefined) setCurrentGroup(group)
                   navigate('/specificgroup')
                 }}
               >
@@ -32,7 +35,7 @@ function GroupSelect (): ReactElement {
 
               </button>
               <button
-                className="groupButton"
+                className="signInSubmit"
                 type="button"
               >
                 x

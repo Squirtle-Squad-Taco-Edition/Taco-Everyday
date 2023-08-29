@@ -1,13 +1,16 @@
 
 .navbar {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 95vw;
     height: 150px;
     border: 2px solid magenta;
+    border-radius: $box-rounding;
     margin: 10px;
 }
 .logoSmall {
     width: 150px;
     height: 150px;
 }
+
