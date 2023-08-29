@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import express from 'express'
 import type { Router, Express, Request, Response, NextFunction } from 'express'
 import type { ServerError } from '../types/types'

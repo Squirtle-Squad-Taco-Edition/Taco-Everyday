@@ -1,0 +1,60 @@
+.signInBox {
+    min-width: 360px;
+    height: 700px;
+    border: 2px solid cyan;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.logoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    width: 80%;
+    height: auto;
+    margin: 0;
+    border: 2px solid cyan;
+}
+.logo {
+    width: 200px;
+    height: 200px;
+}
+.signInInput {
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: skyblue;
+    width: 80%;
+    height: 20px;
+}
+.signInSubmit {
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(231, 92, 220);
+    width: 80%;
+    height: 20px;
+}
+.signInSubmit:hover {
+    cursor: pointer;
+}
+.passwordReset {
+    display: flex;
+    justify-content: end;
+    border: 2px solid magenta;
+    width: 80%;
+    font-size: smaller;
+}
+.signInBottom {
+    display: flex;
+    width: 80%;
+    // height: 40%;
+    // margin: 100px 0 0 0;
+    border: 2px solid cyan;
+}
+// .signInContainer {
+//     display: flex;
+//     flex-direction: column;
+//     border: 2px solid cyan;
+// }
