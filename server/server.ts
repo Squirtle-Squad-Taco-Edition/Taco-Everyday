@@ -1,21 +1,23 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
-import type { ServerError } from '../types/types';
-// import { tacoController } from './controllers/tacoController'
-const PORT = 3030;
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import express from 'express'
+import type { Router, Express, Request, Response, NextFunction } from 'express'
+import type { ServerError } from '../types/types'
+import apiRouter from './routes/tacoRouter'
+import userRouter from './routes/userRouter'
 
-const app = express();
-app.use(express.json());
+const PORT: number = 3030
+const app: Express = express()
 
-// general endpoint for routes
+app.use(express.json())
 
-// app.use('/taco', tacoController)
+// call to routers
+app.use('/api/taco', apiRouter)
+app.use('/api/user', userRouter)
 
 // error handler for bad routes/requests to backend
-app.use((req, res) => {
-  res.sendStatus(404);
-});
+app.use((req: Request, res: Response) => {
+  res.status(404).send('The page does not exist.')
+})
 
 // global error handler for all middleware and routes
 app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
