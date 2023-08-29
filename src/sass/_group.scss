@@ -1,0 +1,23 @@
+
+.group {
+border: 2px solid magenta;
+width: 80%;
+min-height: 60px;
+margin: 15px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.groupBox {
+    min-width: 360px;
+    height: 700px;
+    border: 2px solid cyan;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    overflow: auto;
+}
+.groupButton {
+    margin: 5px;
+}

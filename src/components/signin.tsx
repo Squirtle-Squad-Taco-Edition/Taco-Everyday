@@ -6,6 +6,9 @@ import taco from '../assets/taco.png'
 function Signin (): ReactElement {
   const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
+
+  // & authenticate user and assign info to state
+
   return (
     <div className="signInPage">
       <div className="signInBox">
