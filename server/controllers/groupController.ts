@@ -10,7 +10,11 @@ const { query } = require('../model/tacoModel')
 
 const groupController: any = {}
 
-groupController.createGroup = async (req: Request, res: Response, next: NextFunction) => {
+groupController.createGroup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { name, userId } = req.body
     console.log('req.body: ', req.body)
@@ -24,7 +28,7 @@ groupController.createGroup = async (req: Request, res: Response, next: NextFunc
     next({
       status: 400,
       log: `Error in groupController.createGroup: ${err}`,
-      message: 'Error creating new group'
+      message: 'Error creating new group',
     })
   }
 }
@@ -56,6 +60,7 @@ groupController.getMessages = async (req: Request, res: Response, next: NextFunc
 
     const queryString = 'SELECT message FROM messages WHERE group_id = $1 ORDER BY created_at DESC LIMIT 30'
 
+
     const results = await query(queryString, [groupId])
     const messages = results.rows
     const messageArr = messages.map((message: MessageObj) => message.message)
@@ -67,25 +72,25 @@ groupController.getMessages = async (req: Request, res: Response, next: NextFunc
     next({
       status: 400,
       log: `Error in groupController.getMessages: ${err}`,
-      message: 'Error getting group messages'
+      message: 'Error getting group messages',
     })
   }
 }
 
-groupController.createPost = async (req: Request, res: Response, next: NextFunction) => {
+groupController.createPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const { posterId, groupId, message, pictureUrl } = req.body
+    const { posterId, groupId, message } = req.body
 
     const date = getTime()
     let queryString: string = ''
     const values: string[] = [posterId, groupId, message, date]
 
-    if (pictureUrl) {
-      queryString = 'INSERT INTO messages ( poster_id, group_id, message, created_at, picture_url) VALUES ($1, $2, $3, $4, $5)'
-      values.push(pictureUrl)
-    } else {
-      queryString = 'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
-    }
+    queryString =
+      'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
 
     await query(queryString, values)
     next()
@@ -93,7 +98,7 @@ groupController.createPost = async (req: Request, res: Response, next: NextFunct
     next({
       status: 400,
       log: `Error in groupController.createPost: ${err}`,
-      message: 'Error posting new group message'
+      message: 'Error posting new group message',
     })
   }
 }
