@@ -68,7 +68,7 @@ tacoController.getNewTaco = async (
 
     // initial recipe API fetch and random number calculation
     const URL =
-      'https://api.edamam.com/api/recipes/v2?type=public&app_id=31016b75&app_key=%20384727856a6a8711c7df9178ad185878&cuisineType=Mexican&imageSize=REGULAR&excluded=Crock%20Pot&excluded=crockpot&excluded=pasta&excluded=soups&excluded=filling&random=true&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalTime&field=totalNutrients&tag=tacos'
+      'https://api.edamam.com/api/recipes/v2?type=public&app_id=31016b75&app_key=%20384727856a6a8711c7df9178ad185878&cuisineType=Mexican&imageSize=REGULAR&excluded=seasoning&Crock%20Pot&excluded=crockpot&excluded=pasta&excluded=soups&excluded=filling&random=true&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalTime&field=totalNutrients&tag=tacos'
     const data = await fetch(URL)
     const totalResults: any = await data.json()
     const resultCount = totalResults.hits.length
