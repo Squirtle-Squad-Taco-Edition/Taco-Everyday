@@ -1,0 +1,85 @@
+
+
+.signInPage {
+    width: 99vw;
+    height: 99vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.signInBox {
+    min-width: 360px;
+    height: 700px;
+    // border: 2px solid cyan;
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow;
+    background-color: $body-background;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+.logoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    width: 80%;
+    height: auto;
+    margin: 0;
+    // border: 2px solid cyan;
+}
+.logo {
+    width: 200px;
+    height: 200px;
+}
+.signInInput {
+    color: $font-color;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: $button-background;
+    width: 80%;
+    height: 30px;
+}
+.signInSubmit {
+    color: $font-color;
+    margin: 5px;
+    // padding: 0;
+    border-radius: 5px;
+    border: none;
+    background-color: $button-background;
+    width: 80%;
+    height: 30px;
+}
+.signInSubmit:hover,
+.signUp:hover {
+    cursor: pointer;
+    transform: translate(1px, 1px);
+    color: $hover-color;
+    // background-color: lighten($button-background, 30%);
+}
+.passwordReset {
+    color: $font-color;
+    display: flex;
+    justify-content: end;
+    // border: 2px solid magenta;
+    width: 80%;
+    font-size: smaller;
+}
+.signInBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    width: 80%;
+   height: 30%;
+    // border: 2px solid cyan;
+}
+.signUp {
+    color: $font-color;
+    background: none;
+    border: none;
+    color: white;
+}

@@ -1,0 +1,65 @@
+
+.group {
+border-radius: $box-rounding;
+box-shadow: $container-shadow-dark;
+background-color: lighten($body-background, 20%);
+width: 80%;
+min-height: 60px;
+margin: 15px;
+padding: 5px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.groupBox {
+    width: 50vw;
+    min-width: 360px;
+    height: 700px;
+    padding: 5px;
+    margin: 10px;
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow;
+    background-color: $body-background;
+    border-radius: $box-rounding;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+.groupButton {
+    margin: 5px;
+}
+.messageBox {
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow-dark;
+    background-color: lighten($body-background, 20%);
+    width: 80%;
+    height: 80%;
+    overflow: auto;
+}
+.messageBox::-webkit-scrollbar {
+    display: none;
+}
+.msg {
+    color: rgb(15, 14, 14);
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow-dark;
+    background-color: lighten($body-background, 50%);
+    padding: 5px;
+    margin: 10px;
+}
+#buttonDiv {
+    margin-top: 10px;
+    width: 80%;
+    height: 30px;
+    display: flex;
+    justify-content: space-around;
+    gap: 10px !important;
+
+    .widget {
+        border: none;
+        border-radius: 5px;
+        line-height: 12px;
+        cursor: pointer;
+    }
+}
