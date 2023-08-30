@@ -29,7 +29,7 @@ userController.createUser = async (req: Request, res: Response, next: NextFuncti
   try {
     const { username, password } = req.body
     
-    const queryString = 'INSERT INTO users (username, password) VALUES ($1, $2)'
+    const queryString = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING user_id'
     
     const values = [username, password]
 
