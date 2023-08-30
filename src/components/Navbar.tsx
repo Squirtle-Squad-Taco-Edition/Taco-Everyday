@@ -18,7 +18,7 @@ function Navbar (): ReactElement {
             navigate('/group')
           }}
         >
-          Select New Group
+          Select Group
 
         </button>
         <button

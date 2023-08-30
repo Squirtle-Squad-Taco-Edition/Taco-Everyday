@@ -45,21 +45,24 @@ function Group (): ReactElement {
   useEffect(() => {
     scrollToBottom()
   }, [msgArr])
-  // ${Math.round(taco.totalNutrients[nutrient].quantity)}${taco.totalNutrients[nutrient].unit}
   return (
     <>
       <Navbar />
       {taco !== undefined &&
       (
       <div className="tacoBox">
-        <h3>{taco.label}</h3>
+        <h3 style={{ textAlign: 'center' }}>{taco.label}</h3>
         <img className="logo" src={taco.imageurl} alt="main dish" />
-        <div className="desc" style={{ fontSize: 'small' }}>{taco.description}</div>
+        <div style={{ fontSize: 'small', padding: '10px' }}>{`Taco Description: ${taco.description}`}</div>
         <div className="infoBox">
           <div className="infoSmall">
-            <a className="recipeLink" href={taco.url}>Recipe Post</a>
             <p style={{ fontSize: 'small' }}>{`Servings: ${taco.servings}`}</p>
             <p style={{ fontSize: 'small' }}>{`Time to Cook: ${taco.totalTime} minutes`}</p>
+            <p style={{ fontSize: 'small' }}>
+              Check out the recipe
+              {' '}
+              <a style={{ textDecoration: 'underline' }} className="recipeLink" href={taco.url} target="_blank" rel="noreferrer">here</a>
+            </p>
           </div>
           <div className="infoSmall">
             <p style={{ fontSize: 'small' }}>{`Calories: ${Math.round(taco.calories)}`}</p>
@@ -71,10 +74,12 @@ function Group (): ReactElement {
       </div>
       )}
       <div className="groupBox">
-        <h3>
+        <h3 style={{ textAlign: 'center' }}>
           Taco bout it
+          {' '}
+          <br />
+          {localStorage.getItem('currGroup') ?? currentGroup}
         </h3>
-        {localStorage.getItem('currGroup') ?? currentGroup}
         <div className="messageBox">
           {msgArr.map((msg: string): ReactElement => (
             <div className="msg" key={uuidv4()}>
@@ -83,10 +88,12 @@ function Group (): ReactElement {
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <input type="text" value={message} onChange={(e) => { setMessage(e.currentTarget.value) }} />
-        <button aria-label="Send Message" type="submit" onClick={() => { socket.emit('chat message', message) }}>
-          Submit
-        </button>
+        <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', padding: '5px', margin: '5px' }}>
+          <input style={{ width: '80%', borderRadius: '5px', border: 'none' }} type="text" value={message} onChange={(e) => { setMessage(e.currentTarget.value) }} />
+          <button style={{ border: 'none', borderRadius: '5px', cursor: 'pointer' }} aria-label="Send Message" type="submit" onClick={() => { socket.emit('chat message', message) }}>
+            Submit
+          </button>
+        </div>
       </div>
     </>
   )
