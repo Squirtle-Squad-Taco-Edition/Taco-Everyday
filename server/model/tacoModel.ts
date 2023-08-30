@@ -1,17 +1,17 @@
 // for server.js
 /* eslint-disable import/no-extraneous-dependencies */
-const { Pool } = require('pg');
+const { Pool } = require('pg')
 
-require('dotenv').config();
+require('dotenv').config()
 
-const { PG_URI } = process.env;
+const { PG_URI } = process.env
 
-const pool = new Pool({ connectionString: PG_URI });
+const pool = new Pool({ connectionString: PG_URI })
 
 module.exports = {
   query: (text: string, params: string[]) => {
-    console.log('executed query', text);
-    console.log('query params', params);
-    return pool.query(text, params);
-  },
-};
+    console.log('executed query', text)
+    console.log('query params', params)
+    return pool.query(text, params)
+  }
+}
