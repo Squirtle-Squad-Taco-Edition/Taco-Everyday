@@ -3,31 +3,16 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable prefer-template */
 import { type Request, type Response, type NextFunction } from 'express'
+import { getTime } from './helperFunc'
 
 const { query } = require('../model/tacoModel')
 
 const groupController: any = {}
 
-function getTime () {
-  const date = new Date()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const year = date.getFullYear()
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-  const seconds = date.getSeconds()
-  const milliseconds = date.getMilliseconds()
-
-  const amOrPm = hours >= 12 ? 'PM' : 'AM'
-  const formattedHours = hours % 12 === 0 ? 12 : hours % 12
-
-  const formattedDateTime = `${month}/${day}/${year}, ${formattedHours}:${minutes}:${seconds}.${milliseconds} ${amOrPm}`
-  return formattedDateTime
-}
-
 groupController.createGroup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, userId } = req.body
+    console.log('req.body: ', req.body)
     const queryString = `INSERT INTO groups (name, creator, created_at)
       VALUES ($1, $2, $3);`
     const date = getTime()
@@ -37,13 +22,57 @@ groupController.createGroup = async (req: Request, res: Response, next: NextFunc
   } catch (err) {
     return next({
       status: 400,
-      log: `Error in userController.createUser: ${err}`,
-      message: 'Error creating new user'
+      log: `Error in groupController.createGroup: ${err}`,
+      message: 'Error creating new group'
     })
   }
 }
 
-// groupController.getMessages = async (req: Request, res: Response, next: NextFunction) => {
-// }
+groupController.getMessages = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { groupId } = req.body
+
+    const queryString = 'SELECT * FROM messages WHERE group_id = $1 SORT BY created_at DESC LIMIT 30'
+
+    const results = await query(queryString, [groupId])
+    console.log('results: ', results)
+
+    res.locals.messages = results
+
+    return next()
+  } catch (err) {
+    return next({
+      status: 400,
+      log: `Error in groupController.getMessages: ${err}`,
+      message: 'Error getting group messages'
+    })
+  }
+}
+
+groupController.createPost = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { posterId, groupId, message, pictureUrl } = req.body
+
+    const date = getTime()
+    let queryString: string = ''
+    const values: string[] = [posterId, groupId, message, date]
+    
+    if (pictureUrl) {
+      queryString = 'INSERT INTO messages ( poster_id, group_id, message, created_at, picture_url) VALUES ($1, $2, $3, $4, $5)'
+      values.push(pictureUrl)
+    } else {
+      queryString = 'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
+    }
+    
+    await query(queryString, values)
+    return next()
+  } catch (err) {
+    return next({
+      status: 400,
+      log: `Error in groupController.createPost: ${err}`,
+      message: 'Error posting new group message'
+    })
+  }
+}
 
 export default groupController
