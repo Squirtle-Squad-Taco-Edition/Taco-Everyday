@@ -12,16 +12,14 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  background: url('../assets//bg2.jpg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background-image: url('../assets/bgOrange.jpeg'); 
+  background-repeat: repeat;
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-body::-webkit-scrollbar { 
-  display: none;
 }
 body {
   display: flex;
@@ -39,5 +37,8 @@ body {
   // justify-content: center;
   align-items: center;
   overflow: auto;
+}
+.App::-webkit-scrollbar {
+  display: none;
 }
 

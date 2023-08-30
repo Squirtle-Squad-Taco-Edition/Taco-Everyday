@@ -13,7 +13,7 @@ export interface TacoObj {
   url: string
   imageurl: string
   calories: number
-  totalNutrients: NutrientObj[]
+  totalNutrients: NutrientObj
   totalTime: number
   servings: number
 }

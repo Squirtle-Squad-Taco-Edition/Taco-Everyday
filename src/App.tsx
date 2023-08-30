@@ -6,15 +6,19 @@ import GroupSelect from './components/GroupSelect'
 import Group from './components/Group'
 import { GlobalContext } from './components/Context'
 
-function App(): ReactElement {
-  const [currentGroup, setCurrentGroup] = useState('')
+function App (): ReactElement {
+  const [currentGroup, setCurrentGroup] = useState<string>('')
+  const [globalButton, setGlobalButton] = useState<HTMLElement>()
   return (
     <div className="App">
       <GlobalContext.Provider
         value={{
           currentGroup,
           setCurrentGroup,
-        }}>
+          globalButton,
+          setGlobalButton
+        }}
+      >
         <Routes>
           <Route path="/" element={<Signin />} />
           <Route path="/group" element={<GroupSelect />} />
