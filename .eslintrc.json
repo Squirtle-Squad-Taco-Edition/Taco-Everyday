@@ -1,41 +1,51 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-         "airbnb",
-        "standard-with-typescript",
-        "plugin:react/recommended"
-    ],
-    "parserOptions": {
-        "sourceType": "module",
-        "project": "tsconfig.eslint.json",
-        "tsconfigRootDir": "./"
-      },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-        "import/extensions": [
-           "error",
-           "ignorePackages",
-           {
-            "": "never",
-             "js": "never",
-             "jsx": "never",
-             "ts": "never",
-             "tsx": "never"
-           }
-        ],
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
-     },
-    "root": true,
-    "settings": {
-        "import/resolver": {
-          "node": {
-            "extensions": [".js", ".jsx", ".ts", ".tsx"]
-          }
-        }
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["airbnb", "standard-with-typescript", "plugin:react/recommended"],
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "tsconfig.eslint.json",
+    "tsconfigRootDir": "./"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "": "never",
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
+    ],
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "prefer-template": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "no-inner-declarations": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/return-await": "off",
+    "max-len": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "no-trailing-spaces": "off",
+    "arrow-body-style": "off",
+    "@typescript-eslint/no-confusing-void-expression": "off"
+  },
+  "root": true,
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }

@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/no-extraneous-dependencies */
 import express from 'express'
-import type { Request, Response, NextFunction } from 'express'
+
+import type { Router, Express, Request, Response, NextFunction } from 'express'
 import type { ServerError } from '../types/types'
-// import { tacoController } from './controllers/tacoController'
+import apiRouter from './routes/tacoRouter'
+import userRouter from './routes/userRouter'
+import groupRouter from './routes/groupRouter'
 
 const http = require('http')
 const socketio = require('socket.io')
@@ -15,6 +18,10 @@ const server = http.createServer(app)
 const io = socketio(server)
 
 app.use(express.json())
+
+app.use('/api/taco', apiRouter)
+app.use('/api/user', userRouter)
+app.use('/api/group', groupRouter)
 
 io.on('connection', (socket: any) => {
   console.log('a user connected')
@@ -31,8 +38,8 @@ io.on('connection', (socket: any) => {
 // app.use('/taco', tacoController)
 
 // error handler for bad routes/requests to backend
-app.use((req, res) => {
-  res.sendStatus(404)
+app.use((req: Request, res: Response) => {
+  res.status(404).send('The page does not exist.')
 })
 
 // global error handler for all middleware and routes
