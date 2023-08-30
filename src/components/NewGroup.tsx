@@ -12,8 +12,10 @@ import { v4 as uuidv4 } from 'uuid'
 import { type TacoObj } from '../../types/types'
 import { GlobalContext } from './Context'
 import Navbar from './Navbar'
-// import * as defaultTaco from '../../taco.json'
 
+// TODO: store groupId as context?
+const groupId = 3
+const posterId = 1
 const tempArr = [
   'i love tacos',
   'i love tacos',
@@ -32,10 +34,6 @@ const tempArr = [
   'i love tacos',
   'i love tacos',
 ]
-// TODO: store groupId as context?
-const groupId = 3
-const posterId = 1
-
 function Group(): ReactElement {
   const [message, setMessage] = useState<string>('')
   const [newMessage, setNewMessage] = useState<string>('')
@@ -57,15 +55,12 @@ function Group(): ReactElement {
       block: 'start',
     })
   }
-
-  useEffect(() => {}, [])
-
   async function getTaco(): Promise<void> {
     try {
-      const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
-      const data = await result.json()
+      // const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
+      // const data = await result.json()
       // const data = defaultTaco
-      setTaco(data)
+      // setTaco(data)
     } catch (error) {
       console.log(error)
     }
@@ -109,7 +104,6 @@ function Group(): ReactElement {
       console.log(err)
     }
   }
-
   function fixButton(): void {
     const button =
       globalButton ??
@@ -134,7 +128,8 @@ function Group(): ReactElement {
   }, [])
   useEffect(() => {
     const arr: string[] = [...msgArr]
-    if (message !== '' || newMessage !== '') arr.push(newMessage)
+    if (newMessage !== '' && newMessage !== msgArr[msgArr.length - 1])
+      arr.push(newMessage)
     setMsgArr(arr)
     void getURL()
   }, [newMessage, newImg])
