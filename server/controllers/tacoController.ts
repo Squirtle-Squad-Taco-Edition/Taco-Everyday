@@ -9,7 +9,7 @@ const tacoController: any = {}
 tacoController.current = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const groupId = Number(req.params.groupId)
@@ -24,7 +24,7 @@ tacoController.current = async (
     next({
       log: 'failed in apiController.getRandomTaco.',
       status: 500,
-      message: { err: `Error: ${err}}` }
+      message: { err: `Error: ${err}}` },
     })
   }
 }
@@ -33,14 +33,14 @@ tacoController.current = async (
 tacoController.queryById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     // ex "https://api.edamam.com/api/recipes/v2/011c531057503eb1cdf472ceb2ce0de4?type=public&app_id=31016b75&app_key=%20384727856a6a8711c7df9178ad185878"
     const { currentLink } = res.locals
     const APIRequest =
       currentLink +
-      '&cuisineType=Mexican&imageSize=REGULAR&excluded=Crock%20Pot&excluded=crockpot&excluded=pasta&excluded=soups&excluded=filling&random=true&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalTime&field=totalNutrients&tag=tacos'
+      '&cuisineType=Mexican&imageSize=REGULAR&excluded=Crock%20Pot&excluded=crockpot&excluded=pasta&excluded=soups&excluded=seasoning&filling&random=true&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalTime&field=totalNutrients&tag=tacos'
 
     const response = await fetch(APIRequest)
     const jsonResponse: any = await response.json()
@@ -52,7 +52,7 @@ tacoController.queryById = async (
     next({
       log: 'failed in apiController.getRandomTaco.',
       status: 500,
-      message: { err: `Error: ${err}}` }
+      message: { err: `Error: ${err}}` },
     })
   }
 }
@@ -61,7 +61,7 @@ tacoController.queryById = async (
 tacoController.getNewTaco = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const groupId = Number(req.params.groupId)
@@ -75,7 +75,7 @@ tacoController.getNewTaco = async (
     const randomId: number = Math.floor(Math.random() * resultCount)
 
     // check database to see if link exists in the current group
-    async function checkdatabase (id: any): Promise<any> {
+    async function checkdatabase(id: any): Promise<any> {
       const queryStr = `SELECT tacos.taco_url
       FROM tacos
       JOIN taco_group
@@ -87,8 +87,8 @@ tacoController.getNewTaco = async (
 
       const {
         _links: {
-          self: { href }
-        }
+          self: { href },
+        },
       } = totalResults.hits[0]
       // if the url is not found on the database, return that obj
       if (!result.rows.includes(href)) {
@@ -115,7 +115,7 @@ tacoController.getNewTaco = async (
       'INSERT INTO taco_group (recipe_id, group_id) VALUES ($1, $2)'
     const tacoGroupRequest = await db.query(tacoGroupQuery, [
       currentId,
-      groupId
+      groupId,
     ])
 
     res.locals.tacoRandomId = filtered
@@ -124,7 +124,7 @@ tacoController.getNewTaco = async (
     next({
       log: 'failed in apiController.getRandomTaco.',
       status: 500,
-      message: { err: `Error: ${err}}` }
+      message: { err: `Error: ${err}}` },
     })
   }
 }
