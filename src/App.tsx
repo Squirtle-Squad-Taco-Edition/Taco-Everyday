@@ -5,10 +5,12 @@ import Signin from './components/signin'
 import GroupSelect from './components/GroupSelect'
 import Group from './components/NewGroup'
 import { GlobalContext } from './components/Context'
+import { type GroupObj } from '../types/types'
 
 function App(): ReactElement {
-  const [currentGroup, setCurrentGroup] = useState<string>('')
+  const [currentGroup, setCurrentGroup] = useState<GroupObj>()
   const [globalButton, setGlobalButton] = useState<HTMLElement>()
+  const [globalGroups, setGlobalGroups] = useState<GroupObj[]>()
   return (
     <div className="App">
       <GlobalContext.Provider
@@ -17,7 +19,10 @@ function App(): ReactElement {
           setCurrentGroup,
           globalButton,
           setGlobalButton,
-        }}>
+          globalGroups,
+          setGlobalGroups
+        }}
+      >
         <Routes>
           <Route path="/" element={<Signin />} />
           <Route path="/group" element={<GroupSelect />} />
