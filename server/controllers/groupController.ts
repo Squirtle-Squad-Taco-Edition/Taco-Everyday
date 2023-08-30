@@ -10,7 +10,11 @@ const { query } = require('../model/tacoModel')
 
 const groupController: any = {}
 
-groupController.createGroup = async (req: Request, res: Response, next: NextFunction) => {
+groupController.createGroup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { name, userId } = req.body
     console.log('req.body: ', req.body)
@@ -24,7 +28,7 @@ groupController.createGroup = async (req: Request, res: Response, next: NextFunc
     next({
       status: 400,
       log: `Error in groupController.createGroup: ${err}`,
-      message: 'Error creating new group'
+      message: 'Error creating new group',
     })
   }
 }
@@ -67,14 +71,18 @@ groupController.getMessages = async (req: Request, res: Response, next: NextFunc
     next({
       status: 400,
       log: `Error in groupController.getMessages: ${err}`,
-      message: 'Error getting group messages'
+      message: 'Error getting group messages',
     })
   }
 }
 
-groupController.createPost = async (req: Request, res: Response, next: NextFunction) => {
+groupController.createPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const { posterId, groupId, message, pictureUrl } = req.body
+    const { posterId, groupId, message } = req.body
 
     const date = getTime()
     let queryString: string = ''
@@ -93,7 +101,7 @@ groupController.createPost = async (req: Request, res: Response, next: NextFunct
     next({
       status: 400,
       log: `Error in groupController.createPost: ${err}`,
-      message: 'Error posting new group message'
+      message: 'Error posting new group message',
     })
   }
 }
