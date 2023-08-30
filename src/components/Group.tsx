@@ -32,6 +32,10 @@ const tempArr = [
   'i love tacos',
   'i love tacos',
 ]
+// TODO: store groupId as context?
+const groupId = 3
+const posterId = 1
+
 function Group(): ReactElement {
   const [message, setMessage] = useState<string>('')
   const [newMessage, setNewMessage] = useState<string>('')
@@ -53,6 +57,9 @@ function Group(): ReactElement {
       block: 'start',
     })
   }
+
+  useEffect(() => {}, [])
+
   async function getTaco(): Promise<void> {
     try {
       const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
@@ -77,6 +84,32 @@ function Group(): ReactElement {
       console.log(error)
     }
   }
+  async function getMessages(): Promise<void> {
+    try {
+      // TODO: insert groupId into fetch param
+      const response = await fetch(`/api/group/messages/${groupId}`)
+      const data: string[] = await response.json()
+      setMsgArr(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async function postMessage(): Promise<void> {
+    try {
+      await fetch('/api/group/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // TODO: hard coded posterId & groupId
+        body: JSON.stringify({ posterId, groupId, message }),
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   function fixButton(): void {
     const button =
       globalButton ??
@@ -97,6 +130,7 @@ function Group(): ReactElement {
   useEffect(() => {
     if (taco === undefined) void getTaco()
     fixButton()
+    void getMessages()
   }, [])
   useEffect(() => {
     const arr: string[] = [...msgArr]
@@ -190,6 +224,7 @@ function Group(): ReactElement {
             type="submit"
             onClick={() => {
               socket.emit('chat message', message)
+              void postMessage()
             }}>
             Submit
           </button>
