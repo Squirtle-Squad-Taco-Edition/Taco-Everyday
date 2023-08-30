@@ -1,6 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import express from 'express'
 import apiController from '../controllers/tacoController'
 

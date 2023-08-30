@@ -1,4 +1,6 @@
-const { query } = require('./tacoModel');
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const { query } = require('./tacoModel')
 
 const createTables = (async (): Promise<void> => {
   try {
