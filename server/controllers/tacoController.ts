@@ -16,15 +16,14 @@ tacoController.current = async (
 
     // find the id of the latest recipe
     const queryRecipeId =
-      'SELECT taco_url FROM tacos WHERE recipe_id = (SELECT MAX(recipe_id) FROM tacos)'
-    const lastRecipeUrl = await db.query(queryRecipeId)
-    const values = [groupId]
- 
-    // associate that recipe with the current group
-    const tacoGroupQuery =
-      'INSERT INTO taco_group (recipe_id, group_id) VALUES ($1, $2)'
-    const tacoGroupRequest = await db.query(tacoGroupQuery, [lastRecipeUrl.rows[0].recipe_id, groupId])
+    'SELECT tacos.taco_url FROM tacos JOIN taco_group ON tacos.recipe_id = taco_group.recipe_id WHERE taco_group.group_id = $1 AND tacos.recipe_id = (SELECT MAX(recipe_id) FROM tacos)'
+    const lastRecipeId = await db.query(queryRecipeId, [groupId])
 
+    // // associate that recipe with the current group
+    // const tacoGroupQuery =
+    //   'INSERT INTO taco_group (recipe_id, group_id) VALUES ($1, $2)'
+    // const tacoGroupRequest = await db.query(tacoGroupQuery, [lastRecipeUrl.rows[0].recipe_id, groupId])
+    res.locals.currentId = lastRecipeId
     next()
   } catch (err) {
     next({
@@ -42,7 +41,7 @@ tacoController.queryById = async (
   next: NextFunction
 ) => {
   try {
-    const { groupId } = req.params
+    const { currentId } = res.locals
     next()
   } catch (err) {
     next({
