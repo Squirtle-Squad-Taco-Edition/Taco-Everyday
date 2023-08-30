@@ -43,8 +43,8 @@ userController.createUser = async (
   next: NextFunction,
 ) => {
   try {
-    const { username, password } = req.body
-
+    const { username } = req.body
+    const password = res.locals.hash
     const queryString =
       'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING user_id'
 
@@ -59,34 +59,6 @@ userController.createUser = async (
       status: 400,
       log: `Error in userController.createUser: ${err}`,
       message: 'Error creating new user',
-    })
-  }
-}
-
-userController.authUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const { username, password } = req.body
-
-    const queryString =
-      'SELECT username, password FROM users WHERE username = $1'
-
-    const result = await query(queryString, [username])
-    console.log('result: ', result)
-
-    if (result.rows[0] && result.rows[0].password === password) {
-      console.log('result.rows[0]: ', result.rows[0])
-      res.locals.success = true
-    } else res.locals.success = false
-    return next()
-  } catch (err) {
-    return next({
-      status: 400,
-      log: `Error in userController.authUser: ${err}`,
-      message: 'Error authenticating user for login',
     })
   }
 }
