@@ -1,65 +1,30 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable prefer-template */
-
 import { type Request, type Response, type NextFunction } from 'express'
-import { cleanRecipe } from './helperFunc'
+import { cleanRecipe, getTime } from './helperFunc'
+
+const db = require('../model/tacoModel')
 
 const tacoController: any = {}
 
+// query database for current taco url
 tacoController.current = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const groupId = req.params.groupId;
-    const queryString = `SELECT`
-    const values = [groupId];
+    const groupId = Number(req.params.groupId)
 
-    const result = await db.query(queryString, values)
-  } catch (err) {
-    next({
-      log: 'failed in apiController.getRandomTaco.',
-      status: 500,
-      message: { err: `Error: ${err}}` }
-    })
-  }
-}
-tacoController.queryById = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-  } catch (err) {
-    next({
-      log: 'failed in apiController.getRandomTaco.',
-      status: 500,
-      message: { err: `Error: ${err}}` }
-    })
-  }
-}
+    // find the id of the latest recipe
+    const queryRecipeId =
+      'SELECT taco_url FROM tacos WHERE recipe_id = (SELECT MAX(recipe_id) FROM tacos)'
+    const lastRecipeUrl = await db.query(queryRecipeId)
+    const values = [groupId]
+ 
+    // associate that recipe with the current group
+    const tacoGroupQuery =
+      'INSERT INTO taco_group (recipe_id, group_id) VALUES ($1, $2)'
+    const tacoGroupRequest = await db.query(tacoGroupQuery, [lastRecipeUrl.rows[0].recipe_id, groupId])
 
-tacoController.getNewTaco = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const URL =
-      'https://api.edamam.com/api/recipes/v2?type=public&app_id=31016b75&app_key=%20384727856a6a8711c7df9178ad185878&cuisineType=Mexican&imageSize=REGULAR&excluded=Crock%20Pot&excluded=crockpot&excluded=pasta&excluded=soups&excluded=filling&random=true&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalTime&field=totalNutrients&tag=tacos'
-    const data = await fetch(URL)
-    const totalResults = await data.json()
-    const resultCount = totalResults.count
-    console.log('resultCount', resultCount)
-    const randomId = Math.floor(Math.random() * resultCount)
-    console.log('randomId', randomId)
-    // save to database
-    const tacoId = totalResults.hits[randomId].recipe.url
-    console.log('tacoId', tacoId)
-    res.locals.tacoRandomId = tacoId
     next()
   } catch (err) {
     next({
@@ -70,21 +35,79 @@ tacoController.getNewTaco = async (
   }
 }
 
-tacoController.getTacoById = async (
+// query the recipe API for taco by url
+tacoController.queryById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const recipeId = req.params.id
-    const apiKey = ''
+    const { groupId } = req.params
+    next()
+  } catch (err) {
+    next({
+      log: 'failed in apiController.getRandomTaco.',
+      status: 500,
+      message: { err: `Error: ${err}}` }
+    })
+  }
+}
+
+// call to the recipe API and associated database queries
+tacoController.getNewTaco = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const groupId = Number(req.params.groupId)
+    
+    // initial recipe API fetch and random number calculation
     const URL =
-      'https://api2.bigoven.com/recipe/' + recipeId + '?api_key=' + apiKey
-    // generate a randomTaco
-    // save that taco to user
+      'https://api.edamam.com/api/recipes/v2?type=public&app_id=31016b75&app_key=%20384727856a6a8711c7df9178ad185878&cuisineType=Mexican&imageSize=REGULAR&excluded=Crock%20Pot&excluded=crockpot&excluded=pasta&excluded=soups&excluded=filling&random=true&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalTime&field=totalNutrients&tag=tacos'
     const data = await fetch(URL)
-    const tacoUnfiltered = await data.json()
-    res.locals.taco = 0
+    const totalResults: any = await data.json()
+    const resultCount = totalResults.hits.length
+    const randomId: number = Math.floor(Math.random() * resultCount)
+    
+    // check database to see if link exists in the current group
+    async function checkdatabase (id: any): Promise<any> {
+      const queryStr = `SELECT tacos.taco_url
+      FROM tacos
+      JOIN taco_group
+      ON tacos.recipe_id = taco_group.recipe_id
+      WHERE taco_group.group_id = $1`
+
+      const values = [groupId]
+      const result = await db.query(queryStr, values)
+
+      // if the url is not found on the database, return that link
+      if (!result.rows.includes(totalResults.hits[id].recipe.url)) {
+        return totalResults.hits[id]
+      }
+      // else, grab a new link and check (recursively)
+      console.log('had to recursively call checkdatabase!')
+      return checkdatabase(Math.floor(Math.random() * resultCount))
+    }
+    const uniqueTaco = await checkdatabase(randomId)
+    const filtered = cleanRecipe(uniqueTaco)
+
+    // save the url and current time to database
+    const { url } = filtered
+    const currentTime = getTime()
+    const saveQuery =
+      'INSERT INTO tacos (taco_url, created_at) VALUES ($1, $2) RETURNING recipe_id'
+    const tacoSaveQuery = await db.query(saveQuery, [url, currentTime])
+
+    const currentId = tacoSaveQuery.rows[0].recipe_id
+
+    // associate that recipe with the current group
+    const tacoGroupQuery =
+      'INSERT INTO taco_group (recipe_id, group_id) VALUES ($1, $2)'
+    const tacoGroupRequest = await db.query(tacoGroupQuery, [currentId, groupId])
+
+    res.locals.tacoRandomId = filtered
+    next()
   } catch (err) {
     next({
       log: 'failed in apiController.getRandomTaco.',
