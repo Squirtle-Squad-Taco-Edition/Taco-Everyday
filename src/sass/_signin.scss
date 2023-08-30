@@ -57,7 +57,7 @@
 .signUp:hover {
     cursor: pointer;
     transform: translate(1px, 1px);
-    color: rgb(226, 119, 205);
+    color: $hover-color;
     // background-color: lighten($button-background, 30%);
 }
 .passwordReset {
