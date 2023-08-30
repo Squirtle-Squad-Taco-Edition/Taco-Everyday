@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable max-len */
 
 export function cleanRecipe (obj: any) {
@@ -16,6 +16,7 @@ export function cleanRecipe (obj: any) {
   }
   newObj.totalTime = obj.recipe.totalTime
   newObj.servings = obj.recipe.yield
+  newObj.link = obj['_links']['self']['href']
   return newObj
 }
 

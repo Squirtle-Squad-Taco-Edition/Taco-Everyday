@@ -3,7 +3,7 @@ import apiController from '../controllers/tacoController'
 
 const tacoRouter = express.Router()
 
-tacoRouter.get('/current/:groupId', apiController.current, apiController.queryById, (req, res) => res.sendStatus(200))
+tacoRouter.get('/current/:groupId', apiController.current, apiController.queryById, (req, res) => res.status(200).json(res.locals.currentRecipe))
 
 tacoRouter.get('/new/:groupId', apiController.getNewTaco, (req, res) => res.status(200).json(res.locals.tacoRandomId))
 
