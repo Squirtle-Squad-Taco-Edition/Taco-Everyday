@@ -1,2 +1,3 @@
-declare module "*.png"
-declare module "*.gif"
+declare module '*.png'
+declare module '*.gif'
+declare module 'react-custom-scroller'
