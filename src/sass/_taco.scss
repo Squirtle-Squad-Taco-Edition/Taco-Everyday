@@ -1,0 +1,39 @@
+.tacoBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50vw;
+    min-width: 360px;
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow;
+    background-color: $body-background;
+    border-radius: $box-rounding;
+}
+.recipeLink {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+.recipeLink:hover {
+    color: $hover-color;
+}
+.infoBox {
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow-dark;
+    background-color: lighten($body-background, 20%);
+    padding: 5px;
+    margin: 10px;
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
+.infoSmall {
+    display: flex;
+    width: 40%;
+    margin-top: 10px;
+    flex-direction: column;
+}
+
+p {
+    margin: 2px;
+}

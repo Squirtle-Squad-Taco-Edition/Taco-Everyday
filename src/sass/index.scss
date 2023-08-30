@@ -2,6 +2,7 @@
 @import '_signin';
 @import '_navbar';
 @import '_group';
+@import '_taco';
 
 html {
   color: white;
@@ -16,12 +17,17 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  scrollbar-width: 1px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar { 
+  display: none;
 }
 body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
   margin: 0;
 }
 .App {
@@ -32,6 +38,6 @@ body {
   flex-direction: column;
   // justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: auto;
 }
 
