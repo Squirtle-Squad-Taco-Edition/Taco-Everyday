@@ -43,7 +43,8 @@ groupController.createGroup = async (req: Request, res: Response, next: NextFunc
   }
 }
 
-// groupController.getMessages = async (req: Request, res: Response, next: NextFunction) => {
-// }
+groupController.getMessages = async (req: Request, res: Response, next: NextFunction) => {
+  
+}
 
 export default groupController
