@@ -1,6 +1,6 @@
-/* eslint-disable import/prefer-default-export /
-/ eslint-disable @typescript-eslint/explicit-function-return-type /
-/ eslint-disable max-len */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable max-len */
 
 export function cleanRecipe (obj: any) {
   const newObj: any = {}
