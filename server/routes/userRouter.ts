@@ -6,8 +6,15 @@ import userController from '../controllers/userController'
 
 const userRouter = express.Router()
 
-userRouter.post('/signup', userController.createUser, (req, res) => res.sendStatus(200))
+userRouter.post(
+  '/signup',
+  userController.verifyUser,
+  userController.createUser,
+  (req, res) => res.status(200).json(res.locals.exists),
+)
 
-userRouter.post('/login', userController.authUser, (req, res) => res.status(200).json(res.locals.success))
+userRouter.post('/login', userController.authUser, (req, res) =>
+  res.status(200).json(res.locals.success),
+)
 
 export default userRouter
