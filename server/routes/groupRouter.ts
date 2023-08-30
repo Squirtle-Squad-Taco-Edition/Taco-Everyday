@@ -8,7 +8,9 @@ const groupRouter = express.Router()
 
 groupRouter.post('/create', groupController.createGroup, (req, res) => res.sendStatus(200))
 
-groupRouter.get('/messages', groupController.getMessages, (req, res) => res.sendStatus(200).json(res.locals.messages))
+groupRouter.get('/groups/:userId', groupController.getGroups, (req, res) => res.status(200).json(res.locals.groups))
+
+groupRouter.get('/messages/:groupId', groupController.getMessages, (req, res) => res.status(200).json(res.locals.messages))
 
 groupRouter.post('/messages', groupController.createPost, (req, res) => res.sendStatus(200))
 

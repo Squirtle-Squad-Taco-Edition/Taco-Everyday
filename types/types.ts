@@ -24,3 +24,7 @@ export interface NutrientObj {
   quantity: number
   unit: string
 }
+
+export interface MessageObj {
+  message: string
+}
