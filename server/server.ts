@@ -5,6 +5,7 @@ import type { Router, Express, Request, Response, NextFunction } from 'express'
 import type { ServerError } from '../types/types'
 import apiRouter from './routes/tacoRouter'
 import userRouter from './routes/userRouter'
+import groupRouter from './routes/groupRouter'
 
 const PORT: number = 3030
 const app: Express = express()
@@ -14,6 +15,7 @@ app.use(express.json())
 // call to routers
 app.use('/api/taco', apiRouter)
 app.use('/api/user', userRouter)
+app.use('/api/group', groupRouter)
 
 // error handler for bad routes/requests to backend
 app.use((req: Request, res: Response) => {

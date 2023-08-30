@@ -2,13 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import express from 'express'
-import userController from '../controllers/userController'
+import userController from '../controllers/groupController'
 
 const userRouter = express.Router()
-
-userRouter.post('/signup', userController.createUser, (req, res) => res.sendStatus(200))
-
-userRouter.post('/login', userController.authUser, (req, res) => res.status(200).json(res.locals.key))
 
 userRouter.post('/groups', userController.createGroup, (req, res) => res.sendStatus(200))
 
