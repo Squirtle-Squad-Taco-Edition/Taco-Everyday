@@ -20,7 +20,6 @@ function Signin (): ReactElement {
         {showModal
           ? (
             <>
-              <input className="signInInput" type="text" placeholder="email" />
               <input className="signInInput" type="text" placeholder="username" />
               <input className="signInInput" type="text" placeholder="password" />
               <input className="signInInput" type="text" placeholder="confirm password" />
@@ -28,7 +27,7 @@ function Signin (): ReactElement {
             )
           : (
             <>
-              <input className="signInInput" type="text" placeholder="email or username" />
+              <input className="signInInput" type="text" placeholder="username" />
               <input className="signInInput" type="text" placeholder="password" />
 
             </>

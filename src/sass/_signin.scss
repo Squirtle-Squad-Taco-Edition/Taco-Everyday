@@ -12,7 +12,10 @@
 .signInBox {
     min-width: 360px;
     height: 700px;
-    border: 2px solid cyan;
+    // border: 2px solid cyan;
+    border-radius: $box-rounding;
+    box-shadow: $container-shadow;
+    background-color: $body-background;
     display: flex;
     justify-content: start;
     align-items: center;

@@ -1,14 +1,31 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/no-extraneous-dependencies */
 import express from 'express'
 import type { Request, Response, NextFunction } from 'express'
 import type { ServerError } from '../types/types'
 // import { tacoController } from './controllers/tacoController'
 
+const http = require('http')
+const socketio = require('socket.io')
+
 const PORT = 3030
 
 const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
+
 app.use(express.json())
 
+io.on('connection', (socket: any) => {
+  console.log('a user connected')
+  socket.on('chat message', (msg: string) => {
+    io.emit('chat message', msg)
+    console.log(`message: ${msg}`)
+  })
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
 // general endpoint for routes
 
 // app.use('/taco', tacoController)
@@ -30,7 +47,7 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
   return res.status(errorObj.status).json(errorObj.message)
 })
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`)
 })
 export default app

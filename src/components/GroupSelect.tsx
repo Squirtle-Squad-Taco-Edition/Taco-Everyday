@@ -16,7 +16,7 @@ function GroupSelect (): ReactElement {
       <Navbar />
       <div className="groupBox">
         <h3>
-          Select Group
+          Select Tacomunity
         </h3>
         <hr style={{ width: '80%' }} />
         {tempGroups.map((group: string): ReactElement => (
@@ -28,6 +28,7 @@ function GroupSelect (): ReactElement {
                 type="button"
                 onClick={() => {
                   if (setCurrentGroup !== undefined) setCurrentGroup(group)
+                  localStorage.setItem('currGroup', JSON.stringify(group))
                   navigate('/specificgroup')
                 }}
               >

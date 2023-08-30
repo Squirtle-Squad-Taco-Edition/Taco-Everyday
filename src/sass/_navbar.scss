@@ -3,9 +3,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 95vw;
+    width: 50vw;
+    min-width: 360px;
     height: 150px;
-    border: 2px solid magenta;
+    border-radius: $box-rounding;
+    box-shadow:  $container-shadow;
+    background-color: $body-background;
     border-radius: $box-rounding;
     margin: 10px;
 }
