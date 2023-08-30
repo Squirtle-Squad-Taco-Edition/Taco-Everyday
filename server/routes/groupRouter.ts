@@ -2,10 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import express from 'express'
-import userController from '../controllers/groupController'
+import groupController from '../controllers/groupController'
 
-const userRouter = express.Router()
+const groupRouter = express.Router()
 
-userRouter.post('/groups', userController.createGroup, (req, res) => res.sendStatus(200))
+groupRouter.post('/create', groupController.createGroup, (req, res) => res.sendStatus(200))
 
-export default userRouter
+groupRouter.get('/messages', groupController.getMessages, (req, res) => res.sendStatus(200).json(res.locals.messages))
+
+groupRouter.post('/messages', groupController.createPost, (req, res) => res.sendStatus(200))
+
+export default groupRouter
