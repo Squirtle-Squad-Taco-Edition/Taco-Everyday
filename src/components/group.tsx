@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { type TacoObj } from '../../types/types'
 import { GlobalContext } from './Context'
 import Navbar from './Navbar'
-import * as defaultTaco from '../../taco.json'
 
 const tempArr = ['i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos']
 function Group (): ReactElement {
@@ -28,10 +27,10 @@ function Group (): ReactElement {
   }
   async function getTaco (): Promise<void> {
     try {
-      const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
-      const data = await result.json()
+      // const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
+      // const data = await result.json()
       // const data = defaultTaco
-      setTaco(data)
+      // setTaco(data)
     } catch (error) {
       console.log(error)
     }
@@ -67,7 +66,7 @@ function Group (): ReactElement {
   }, [])
   useEffect(() => {
     const arr: string[] = [...msgArr]
-    if (message !== '' || newMessage !== '') arr.push(newMessage)
+    if (newMessage !== '' && newMessage !== msgArr[msgArr.length - 1]) arr.push(newMessage)
     setMsgArr(arr)
     void getURL()
   }, [newMessage, newImg])
