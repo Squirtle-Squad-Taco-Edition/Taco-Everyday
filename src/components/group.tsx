@@ -6,16 +6,19 @@ import { v4 as uuidv4 } from 'uuid'
 import { type TacoObj } from '../../types/types'
 import { GlobalContext } from './Context'
 import Navbar from './Navbar'
+import * as defaultTaco from '../../taco.json'
 
 const tempArr = ['i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos', 'i love tacos']
 function Group (): ReactElement {
-  const [message, setMessage] = useState('')
-  const [newMessage, setNewMessage] = useState('')
+  const [message, setMessage] = useState<string>('')
+  const [newMessage, setNewMessage] = useState<string>('')
+  const [url, setUrl] = useState<string>('')
+  const [newImg, setNewImg] = useState<boolean>(false)
   const [taco, setTaco] = useState<TacoObj>()
   const [msgArr, setMsgArr] = useState<string[]>(tempArr)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const socket = io('http://127.0.0.1:3030', { transports: ['websocket'] })
-  const { currentGroup } = useContext(GlobalContext)
+  const { currentGroup, globalButton, setGlobalButton } = useContext(GlobalContext)
   // & pull messages from global state
   socket.on('chat message', (msg) => {
     setNewMessage(msg)
@@ -25,23 +28,39 @@ function Group (): ReactElement {
   }
   async function getTaco (): Promise<void> {
     try {
-      const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
-      const data = await result.json()
+      // const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
+      // const data = await result.json()
+      const data = defaultTaco
       setTaco(data)
-      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async function getURL (): Promise<void> {
+    try {
+      let img
+      const localImg = localStorage.getItem('imageURL')
+      if (localImg !== null) img = await JSON.parse(localImg)
+      if (url !== '' && url !== img) {
+        socket.emit('chat message', img)
+      }
+      setUrl(img)
+      setNewImg(false)
     } catch (error) {
       console.log(error)
     }
   }
   function fixButton (): void {
-    const button = document.getElementById('upload_widget')
-    const pos = Number(document.getElementById('button1')?.getBoundingClientRect().bottom) + 5
-    if (button !== null) button.setAttribute('style', `top: ${pos}; position: absolute;`)
+    const button = globalButton ?? document.getElementById('upload_widget') ?? document.createElement('button')
+    button.removeAttribute('style')
+    button.setAttribute('class', 'widget')
+    button.addEventListener('click', () => {
+      setTimeout(() => { setNewImg(true) }, 10000)
+    })
+    if (globalButton === undefined && setGlobalButton !== undefined) setGlobalButton(button)
+    const buttonDiv = document.getElementById('buttonDiv')
+    buttonDiv?.appendChild(button)
   }
-  // const openModal = (e: SyntheticEvent): void => {
-  //   setModalPos(e.currentTarget.getBoundingClientRect().bottom + 5)
-  //   showModal ? setShowModal(false) : setShowModal(true)
-  // }
   useEffect(() => {
     if (taco === undefined) void getTaco()
     fixButton()
@@ -50,8 +69,8 @@ function Group (): ReactElement {
     const arr: string[] = [...msgArr]
     if (message !== '' || newMessage !== '') arr.push(newMessage)
     setMsgArr(arr)
-    // console.log(newMessage)
-  }, [newMessage])
+    void getURL()
+  }, [newMessage, newImg])
   useEffect(() => {
     scrollToBottom()
   }, [msgArr])
@@ -93,14 +112,16 @@ function Group (): ReactElement {
         <div className="messageBox">
           {msgArr.map((msg: string): ReactElement => (
             <div className="msg" key={uuidv4()}>
-              {msg}
+              {msg.substring(0, 5) === 'https'
+                ? <img className="logo" src={msg} alt="msgImg" />
+                : msg}
             </div>
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', padding: '5px', margin: '5px' }}>
+        <div id="buttonDiv">
           <input style={{ width: '80%', borderRadius: '5px', border: 'none' }} type="text" value={message} onChange={(e) => { setMessage(e.currentTarget.value) }} />
-          <button id="button1" style={{ border: 'none', borderRadius: '5px', cursor: 'pointer' }} aria-label="Send Message" type="submit" onClick={() => { socket.emit('chat message', message) }}>
+          <button style={{ border: 'none', borderRadius: '5px', cursor: 'pointer' }} aria-label="Send Message" type="submit" onClick={() => { socket.emit('chat message', message) }}>
             Submit
           </button>
         </div>

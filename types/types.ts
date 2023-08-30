@@ -9,11 +9,11 @@ export interface ServerError {
 export interface TacoObj {
   [key: string]: any
   label: string
-  description: string
+  description: string[]
   url: string
   imageurl: string
   calories: number
-  totalNutrients: NutrientObj[]
+  totalNutrients: NutrientObj
   totalTime: number
   servings: number
 }

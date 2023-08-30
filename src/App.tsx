@@ -7,13 +7,16 @@ import Group from './components/group'
 import { GlobalContext } from './components/Context'
 
 function App (): ReactElement {
-  const [currentGroup, setCurrentGroup] = useState('')
+  const [currentGroup, setCurrentGroup] = useState<string>('')
+  const [globalButton, setGlobalButton] = useState<HTMLElement>()
   return (
     <div className="App">
       <GlobalContext.Provider
         value={{
           currentGroup,
-          setCurrentGroup
+          setCurrentGroup,
+          globalButton,
+          setGlobalButton
         }}
       >
         <Routes>
