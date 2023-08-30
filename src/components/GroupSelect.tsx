@@ -1,15 +1,28 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useContext, type ReactElement } from 'react'
+import React, { useContext, type ReactElement, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { GlobalContext } from './Context'
 import Navbar from './Navbar'
+import { type GroupObj } from '../../types/types'
 
-const tempGroups = ['Spectacolar', 'Will work for tacos']
 function GroupSelect (): ReactElement {
   const navigate = useNavigate()
-  const { setCurrentGroup } = useContext(GlobalContext)
+  const { setCurrentGroup, setGlobalGroups, globalGroups } = useContext(GlobalContext)
 
+  const posterId = 17
+
+  useEffect(() => {
+    void (async function getGroups (): Promise<void> {
+      try {
+        const response = await fetch(`/api/group/groups/${posterId}`)
+        const data: GroupObj[] = await response.json()
+        if (setGlobalGroups !== undefined) setGlobalGroups(data)
+      } catch (err) {
+        console.log(err)
+      }
+    })()
+  }, [])
   // & pull user info from global state
   return (
     <>
@@ -19,16 +32,16 @@ function GroupSelect (): ReactElement {
           Select Tacomunity
         </h3>
         <hr style={{ width: '80%' }} />
-        {tempGroups.map((group: string): ReactElement => (
-          <div className="group" key={uuidv4()}>
-            {group}
+        {globalGroups?.map((group: GroupObj): ReactElement => (
+          <div className="group" key={group.group_id}>
+            {group.name}
             <div style={{ display: 'flex' }}>
               <button
                 className="signInSubmit"
                 type="button"
                 onClick={() => {
                   if (setCurrentGroup !== undefined) setCurrentGroup(group)
-                  localStorage.setItem('currGroup', JSON.stringify(group))
+                  localStorage.setItem('currGroup', JSON.stringify(group.name))
                   navigate('/specificgroup')
                 }}
               >

@@ -60,7 +60,6 @@ groupController.getMessages = async (req: Request, res: Response, next: NextFunc
 
     const queryString = 'SELECT message FROM messages WHERE group_id = $1 ORDER BY created_at DESC LIMIT 30'
 
-
     const results = await query(queryString, [groupId])
     const messages = results.rows
     const messageArr = messages.map((message: MessageObj) => message.message)
@@ -86,19 +85,15 @@ groupController.createPost = async (
     const { posterId, groupId, message } = req.body
 
     const date = getTime()
-    let queryString: string = ''
     const values: string[] = [posterId, groupId, message, date]
-
-    queryString =
-      'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
-
+    const queryString: string = 'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
     await query(queryString, values)
     next()
   } catch (err) {
     next({
       status: 400,
       log: `Error in groupController.createPost: ${err}`,
-      message: 'Error posting new group message',
+      message: 'Error posting new group message'
     })
   }
 }

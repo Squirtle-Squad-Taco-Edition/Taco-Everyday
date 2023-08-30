@@ -28,3 +28,8 @@ export interface NutrientObj {
 export interface MessageObj {
   message: string
 }
+
+export interface GroupObj {
+  group_id: number
+  name: string
+}
