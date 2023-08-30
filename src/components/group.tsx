@@ -28,9 +28,9 @@ function Group (): ReactElement {
   }
   async function getTaco (): Promise<void> {
     try {
-      // const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
-      // const data = await result.json()
-      const data = defaultTaco
+      const result = await fetch('api/taco/new/3') // TODO dynamically pull group id
+      const data = await result.json()
+      // const data = defaultTaco
       setTaco(data)
     } catch (error) {
       console.log(error)
