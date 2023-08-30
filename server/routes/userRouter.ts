@@ -3,11 +3,20 @@
 
 import express from 'express'
 import userController from '../controllers/userController'
+import tacoSecurityController from '../controllers/tacoSecurityController'
 
 const userRouter = express.Router()
 
-userRouter.post('/signup', userController.createUser, (req, res) => res.sendStatus(200))
+userRouter.post(
+  '/signup',
+  tacoSecurityController.setHash,
+  userController.verifyUser,
+  userController.createUser,
+  (req, res) => res.status(200).json(res.locals.exists),
+)
 
-userRouter.post('/login', userController.authUser, (req, res) => res.status(200).json(res.locals.success))
+userRouter.post('/login', tacoSecurityController.checkHash, (req, res) =>
+  res.status(200).json(res.locals.verify),
+)
 
 export default userRouter
