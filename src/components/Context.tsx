@@ -1,8 +1,8 @@
 import { createContext, type Dispatch, type SetStateAction } from 'react'
 
 export interface GlobalContextInterace {
-  globalTimer?: number
-  setGlobalTimer?: Dispatch<SetStateAction<number>>
+  currentGroup?: string
+  setCurrentGroup?: Dispatch<SetStateAction<string>>
 }
 
 export const GlobalContext = createContext<GlobalContextInterace>({})

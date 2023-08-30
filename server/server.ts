@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/no-extraneous-dependencies */
 import express from 'express'
 
 import type { Router, Express, Request, Response, NextFunction } from 'express'
@@ -7,15 +8,34 @@ import apiRouter from './routes/tacoRouter'
 import userRouter from './routes/userRouter'
 import groupRouter from './routes/groupRouter'
 
-const PORT: number = 3030
-const app: Express = express()
+const http = require('http')
+const socketio = require('socket.io')
+
+const PORT = 3030
+
+const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 
 app.use(express.json())
 
-// call to routers
 app.use('/api/taco', apiRouter)
 app.use('/api/user', userRouter)
 app.use('/api/group', groupRouter)
+
+io.on('connection', (socket: any) => {
+  console.log('a user connected')
+  socket.on('chat message', (msg: string) => {
+    io.emit('chat message', msg)
+    console.log(`message: ${msg}`)
+  })
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
+// general endpoint for routes
+
+// app.use('/taco', tacoController)
 
 // error handler for bad routes/requests to backend
 app.use((req: Request, res: Response) => {
@@ -34,7 +54,7 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
   return res.status(errorObj.status).json(errorObj.message)
 })
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`)
 })
 export default app
