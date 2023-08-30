@@ -2,18 +2,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable prefer-template */
+import { type Request, type Response, type NextFunction } from 'express'
 
-import { query } from '../';
+const { query } = require('../model/tacoModel')
 
-const userController: any = {};
+const userController: any = {}
 
-export default userController;
+userController.createUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username, password } = req.body
+    
+    const queryString = 'INSERT INTO users (username, password) VALUES ($1, $2)'
+    
+    const values = [username, password]
 
-// userRouter.post('/api/user/signup', userController.createUser, (req, res) =>
-// res.status(200).json(res.locals.user);
+    const result = await query(queryString, values)
+    console.log('result: ', result)
 
-// userRouter.post('/api/user/login', userController.authUser, (req, res) =>
-// res.status(200).json(res.locals.key);
+    return next()
+  } catch (err) {
+    return next({
+      status: 400,
+      log: `Error in userController.createUser: ${err}`,
+      message: 'Error creating new user'
+    })
+  }
+}
 
-// userRouter.post('/api/user/groups', userController.groupsUser, (req, res) =>
-// res.status(200).json(res.locals.groups);
+export default userController
