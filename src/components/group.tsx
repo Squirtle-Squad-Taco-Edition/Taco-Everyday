@@ -33,8 +33,18 @@ function Group (): ReactElement {
       console.log(error)
     }
   }
+  function fixButton (): void {
+    const button = document.getElementById('upload_widget')
+    const pos = Number(document.getElementById('button1')?.getBoundingClientRect().bottom) + 5
+    if (button !== null) button.setAttribute('style', `top: ${pos}; position: absolute;`)
+  }
+  // const openModal = (e: SyntheticEvent): void => {
+  //   setModalPos(e.currentTarget.getBoundingClientRect().bottom + 5)
+  //   showModal ? setShowModal(false) : setShowModal(true)
+  // }
   useEffect(() => {
     if (taco === undefined) void getTaco()
+    fixButton()
   }, [])
   useEffect(() => {
     const arr: string[] = [...msgArr]
@@ -90,7 +100,7 @@ function Group (): ReactElement {
         </div>
         <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', padding: '5px', margin: '5px' }}>
           <input style={{ width: '80%', borderRadius: '5px', border: 'none' }} type="text" value={message} onChange={(e) => { setMessage(e.currentTarget.value) }} />
-          <button style={{ border: 'none', borderRadius: '5px', cursor: 'pointer' }} aria-label="Send Message" type="submit" onClick={() => { socket.emit('chat message', message) }}>
+          <button id="button1" style={{ border: 'none', borderRadius: '5px', cursor: 'pointer' }} aria-label="Send Message" type="submit" onClick={() => { socket.emit('chat message', message) }}>
             Submit
           </button>
         </div>
