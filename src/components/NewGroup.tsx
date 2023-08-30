@@ -16,31 +16,17 @@ import Navbar from './Navbar'
 // TODO: store groupId as context?
 const groupId = 3
 const posterId = 1
-const tempArr = [
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-  'i love tacos',
-]
+// const tempArr = [
+//   'i love tacos',
+//   'i love tacos',
+// ]
 function Group(): ReactElement {
   const [message, setMessage] = useState<string>('')
   const [newMessage, setNewMessage] = useState<string>('')
   const [url, setUrl] = useState<string>('')
   const [newImg, setNewImg] = useState<boolean>(false)
   const [taco, setTaco] = useState<TacoObj>()
-  const [msgArr, setMsgArr] = useState<string[]>(tempArr)
+  const [msgArr, setMsgArr] = useState<string[]>([''])
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const socket = io('http://127.0.0.1:3030', { transports: ['websocket'] })
   const { currentGroup, globalButton, setGlobalButton } =
@@ -82,9 +68,9 @@ function Group(): ReactElement {
   async function getMessages(): Promise<void> {
     try {
       // TODO: insert groupId into fetch param
-      const response = await fetch(`/api/group/messages/${groupId}`)
+      const response = await fetch(`/api/group/messages/${currentGroup?.group_id}`)
       const data: string[] = await response.json()
-      setMsgArr(data)
+      if (Array.isArray(data)) setMsgArr(data)
     } catch (err) {
       console.log(err)
     }
@@ -188,7 +174,7 @@ function Group(): ReactElement {
       <div className="groupBox">
         <h3 style={{ textAlign: 'center' }}>
           Taco bout it <br />
-          {localStorage.getItem('currGroup') ?? currentGroup}
+          {localStorage.getItem('currGroup') ?? currentGroup?.name}
         </h3>
         <div className="messageBox">
           {msgArr.map(

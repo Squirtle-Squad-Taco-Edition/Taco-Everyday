@@ -30,6 +30,6 @@ export interface MessageObj {
 }
 
 export interface GroupObj {
-  groupId: number
+  group_id: number
   name: string
 }

@@ -8,7 +8,7 @@ import { GlobalContext } from './components/Context'
 import { type GroupObj } from '../types/types'
 
 function App(): ReactElement {
-  const [currentGroup, setCurrentGroup] = useState<string>('')
+  const [currentGroup, setCurrentGroup] = useState<GroupObj>()
   const [globalButton, setGlobalButton] = useState<HTMLElement>()
   const [globalGroups, setGlobalGroups] = useState<GroupObj[]>()
   return (

@@ -8,10 +8,9 @@ import { type GroupObj } from '../../types/types'
 
 function GroupSelect (): ReactElement {
   const navigate = useNavigate()
-  const { setCurrentGroup } = useContext(GlobalContext)
-  const { setGlobalGroups } = useContext(GlobalContext)
+  const { setCurrentGroup, setGlobalGroups, globalGroups } = useContext(GlobalContext)
 
-  const posterId = 3
+  const posterId = 17
 
   useEffect(() => {
     void (async function getGroups (): Promise<void> {
@@ -33,16 +32,16 @@ function GroupSelect (): ReactElement {
           Select Tacomunity
         </h3>
         <hr style={{ width: '80%' }} />
-        {tempGroups.map((group: string): ReactElement => (
-          <div className="group" key={uuidv4()}>
-            {group}
+        {globalGroups?.map((group: GroupObj): ReactElement => (
+          <div className="group" key={group.group_id}>
+            {group.name}
             <div style={{ display: 'flex' }}>
               <button
                 className="signInSubmit"
                 type="button"
                 onClick={() => {
                   if (setCurrentGroup !== undefined) setCurrentGroup(group)
-                  localStorage.setItem('currGroup', JSON.stringify(group))
+                  localStorage.setItem('currGroup', JSON.stringify(group.name))
                   navigate('/specificgroup')
                 }}
               >

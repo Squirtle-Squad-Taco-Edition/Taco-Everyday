@@ -85,23 +85,15 @@ groupController.createPost = async (
     const { posterId, groupId, message } = req.body
 
     const date = getTime()
-    let queryString: string = ''
     const values: string[] = [posterId, groupId, message, date]
-
-    if (pictureUrl) {
-      queryString = 'INSERT INTO messages ( poster_id, group_id, message, created_at, picture_url) VALUES ($1, $2, $3, $4, $5)'
-      values.push(pictureUrl)
-    } else {
-      queryString = 'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
-    }
-
+    const queryString: string = 'INSERT INTO messages ( poster_id, group_id, message, created_at) VALUES ($1, $2, $3, $4)'
     await query(queryString, values)
     next()
   } catch (err) {
     next({
       status: 400,
       log: `Error in groupController.createPost: ${err}`,
-      message: 'Error posting new group message',
+      message: 'Error posting new group message'
     })
   }
 }
