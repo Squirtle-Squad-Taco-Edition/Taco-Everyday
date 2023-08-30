@@ -38,7 +38,7 @@
     "@typescript-eslint/strict-boolean-expressions": "off",
     "no-trailing-spaces": "off",
     "arrow-body-style": "off",
-    "@typescript-eslint/prefer-nullish-coalescing": "off"
+    "@typescript-eslint/no-confusing-void-expression": "off"
   },
   "root": true,
   "settings": {
