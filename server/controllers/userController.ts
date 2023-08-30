@@ -46,35 +46,26 @@ userController.createUser = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-// userController.authUser = async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     const { username, password } = req.body
-
-//     const queryString = 'SELECT username, password FROM users WHERE username = $1 AND password = $2'
-
-//   } catch (err) {
-//     return next({
-//       status: 400,
-//       log: `Error in userController.authUser: ${err}`,
-//       message: 'Error authenticating user for login'
-//     })
-//   }
-// }
-
-userController.createGroup = async (req: Request, res: Response, next: NextFunction) => {
+userController.authUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, userId } = req.body
-    const queryString = `INSERT INTO groups (name, creator, created_at)
-      VALUES ($1, $2, $3);`
-    const date = getTime()
-    const values = [name, userId, date]
-    await query(queryString, values)
+    const { username, password } = req.body
+
+    const queryString = 'SELECT username, password FROM users WHERE username = $1'
+
+    const result = await query(queryString, [username])
+    console.log('result: ', result)
+    
+    if (result.rows[0] && result.rows[0].password === password) {
+      console.log('result.rows[0]: ', result.rows[0])
+      
+      res.locals.success = true
+    } else res.locals.success = false
     return next()
   } catch (err) {
     return next({
       status: 400,
-      log: `Error in userController.createUser: ${err}`,
-      message: 'Error creating new user'
+      log: `Error in userController.authUser: ${err}`,
+      message: 'Error authenticating user for login'
     })
   }
 }
