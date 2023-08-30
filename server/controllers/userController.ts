@@ -3,27 +3,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable prefer-template */
 import { type Request, type Response, type NextFunction } from 'express'
+import { getTime } from './helperFunc'
 
 const { query } = require('../model/tacoModel')
 
 const userController: any = {}
-
-function getTime () {
-  const date = new Date()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const year = date.getFullYear()
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-  const seconds = date.getSeconds()
-  const milliseconds = date.getMilliseconds()
-
-  const amOrPm = hours >= 12 ? 'PM' : 'AM'
-  const formattedHours = hours % 12 === 0 ? 12 : hours % 12
-
-  const formattedDateTime = `${month}/${day}/${year}, ${formattedHours}:${minutes}:${seconds}.${milliseconds} ${amOrPm}`
-  return formattedDateTime
-}
 
 userController.createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -34,7 +18,6 @@ userController.createUser = async (req: Request, res: Response, next: NextFuncti
     const values = [username, password]
 
     const result = await query(queryString, values)
-    console.log('result: ', result)
 
     return next()
   } catch (err) {
